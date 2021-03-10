@@ -6,6 +6,34 @@ services:
       dockerfile: Dockerfile.dev
     image: digital-library/solr-indexer-dev
     container_name: digital-library-solr-indexer
+    depends_on:
+      - ldpath
+    #  - postgres
+    #  - mongo
+    command:
+      [
+        "./scripts/wait-for-it.sh",
+        "ldpath:9086",
+        "--strict",
+        "--timeout=60",
+        "--",
+        "./startDev.sh"
+      ]
+    links:
+      - ldpath
+    #  - postgres:db
+    #  - mongo
+    #ports:
+    #  - "9229:9229"
+    volumes:
+      - ./digital-library-solr-indexer:/opt/app
+
+  ldpath:
+    build:
+      context: ./digital-library-ldpath
+      dockerfile: Dockerfile.dev
+    image: digital-library/ldpath-dev
+    container_name: digital-library-ldpath
     #depends_on:
     #  - redis
     #  - postgres
@@ -24,13 +52,8 @@ services:
     #  - redis
     #  - postgres:db
     #  - mongo
-    #ports:
-    #  - "9229:9229"
-    #environment:
-    #  VIRTUAL_HOST: api.dev.zendy.io
+    ports:
+      - "9086:9086"
     volumes:
-      - ./digital-library-solr-indexer:/opt/app
+      - ./digital-library-ldpath:/opt/app
 
-
-volumes:
-  redis:

@@ -1,3 +1,6 @@
 [submodule "digital-library-solr-indexer"]
 	path = digital-library-solr-indexer
 	url = git@github.com:Knowledge-E/digital-library-solr-indexer.git
+[submodule "digital-library-ldpath"]
+	path = digital-library-ldpath
+	url = git@github.com:Knowledge-E/digital-library-ldpath.git
