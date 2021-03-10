@@ -1,0 +1,36 @@
+version: "3.3"
+services:
+  solr-indexer:
+    build:
+      context: ./digital-library-solr-indexer
+      dockerfile: Dockerfile.dev
+    image: digital-library/solr-indexer-dev
+    container_name: digital-library-solr-indexer
+    #depends_on:
+    #  - redis
+    #  - postgres
+    #  - mongo
+    #command:
+    #  [
+    #    "./scripts/wait-for-it.sh",
+    #    "postgres:5432",
+    #    "--strict",
+    #    "--timeout=60",
+    #    "--",
+    #    "yarn",
+    #    "${COMMAND}",
+    #  ]
+    #links:
+    #  - redis
+    #  - postgres:db
+    #  - mongo
+    #ports:
+    #  - "9229:9229"
+    #environment:
+    #  VIRTUAL_HOST: api.dev.zendy.io
+    volumes:
+      - ./digital-library-solr-indexer:/opt/app
+
+
+volumes:
+  redis:
