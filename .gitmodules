@@ -4,3 +4,6 @@
 [submodule "digital-library-ldpath"]
 	path = digital-library-ldpath
 	url = git@github.com:Knowledge-E/digital-library-ldpath.git
+[submodule "digital-library-ldpath-program"]
+	path = digital-library-ldpath-program
+	url = git@github.com:Knowledge-E/digital-library-ldpath-program.git
