@@ -3,8 +3,11 @@
 1. Clone everything recursively
 2. Create /home/${yourUser}/volumes/development/solr and apply proper permissions
 3. Create /home/${yourUser}/volumes/development/fedora and apply proper permissions
-3. Start
-4 Create "openaccess" core within the solr docker container (bash into the container and)
+4. Start
+    - you need to install docker
+    - you need to install docker-compose
+    - docker-compose -f docker-compose.development.yaml up --build
+5. Create "openaccess" core within the solr docker container (bash into the container and)
     solr create -c openaccess
 
 Using solr UI, you are able to perform the search across everything, however when you start
