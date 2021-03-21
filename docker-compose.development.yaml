@@ -9,16 +9,20 @@ services:
       - ~/volumes/development/solr:/var/solr
 
   fedora-repository:
-    image: tomcat:8.5.64-jdk8-openjdk-slim-buster
+    build:
+      context: ./resources/tomcat
+      dockerfile: Dockerfile
+    image: digital-library/fedora-repository
+    container_name: digital-library-fedora-repository
+    command: [
+      "catalina.sh",
+      "run"
+    ]
     volumes:
-      - ./resources/fcrepo.war:/usr/local/tomcat/webapps/fcrepo.war
+      - ~/volumes/development/fedora:/usr/local/tomcat/oa-discovery-data
     ports:
       - '8080:8080'
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb1
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: root
+      - '61616:61616'
 
   solr-indexer:
     build:
@@ -29,11 +33,16 @@ services:
     depends_on:
       - ldpath
       - solr
-    #  - mongo
+      - fedora-repository
     command:
       [
         "./scripts/wait-for-it.sh",
         "ldpath:9086",
+        "--strict",
+        "--timeout=60",
+        "--",
+        "./scripts/wait-for-it.sh",
+        "fedora-repository:61616",
         "--strict",
         "--timeout=60",
         "--",
@@ -42,7 +51,7 @@ services:
     links:
       - ldpath
       - solr
-    #  - mongo
+      - fedora-repository
     volumes:
       - ./digital-library-solr-indexer:/opt/app
 
